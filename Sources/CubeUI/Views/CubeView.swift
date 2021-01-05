@@ -9,30 +9,135 @@ import SwiftUI
 
 public struct CubeView<Content: View>: View {
       
-    enum SlideDirection {
+    private enum SlideDirection {
         case enter
         case exit
     }
 
-    enum DragDirection {
+    private enum DragDirection {
         case next
         case prev
     }
     
-    @State var direction: DragDirection = .next
-    @State var pct: Double = 0
-    @State var diff: Double = 0
-    @State var index: Int = 0
+    @State private var direction: DragDirection = .next
+    @State private var pct: Double = 0
+    @State private var diff: Double = 0
+    @State private var index: Int = 0
     
-    var views: [AnyView] = []
+    private let views: [AnyView]
 
+//    public init(@ViewBuilder content: () -> Content) {
+//        let m = Mirror(reflecting: content())
+//        if let value = m.descendant("value") {
+//            let tupleMirror = Mirror(reflecting: value)
+//            let tupleElements = tupleMirror.children.map({ AnyView(_fromValue: $0.value)! })
+//            views.append(contentsOf: tupleElements)
+//        }
+//    }
+  
     public init(@ViewBuilder content: () -> Content) {
-        let m = Mirror(reflecting: content())
-        if let value = m.descendant("value") {
-            let tupleMirror = Mirror(reflecting: value)
-            let tupleElements = tupleMirror.children.map({ AnyView(_fromValue: $0.value)! })
-            views.append(contentsOf: tupleElements)
-        }
+        views = [
+            AnyView(content())
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4),
+            AnyView(content().value.5)
+        ]
+    }
+    
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4),
+            AnyView(content().value.5),
+            AnyView(content().value.6)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4),
+            AnyView(content().value.5),
+            AnyView(content().value.6),
+            AnyView(content().value.7)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4),
+            AnyView(content().value.5),
+            AnyView(content().value.6),
+            AnyView(content().value.7),
+            AnyView(content().value.8)
+        ]
+    }
+
+    public init(@ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content, Content, Content)> ) {
+        views = [
+            AnyView(content().value.0),
+            AnyView(content().value.1),
+            AnyView(content().value.2),
+            AnyView(content().value.3),
+            AnyView(content().value.4),
+            AnyView(content().value.5),
+            AnyView(content().value.6),
+            AnyView(content().value.7),
+            AnyView(content().value.8),
+            AnyView(content().value.9)
+        ]
     }
     
     var next: Int {
