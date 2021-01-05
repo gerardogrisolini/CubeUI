@@ -1,6 +1,6 @@
 //
 //  CubeView.swift
-//  iSwiftUI
+//  CubeUI
 //
 //  Created by Gerardo Grisolini on 01/01/21.
 //
@@ -182,18 +182,10 @@ struct CubeView_Previews: PreviewProvider {
 
     static var previews: some View {
         CubeView {
-            Rectangle()
-                .fill(Color.green)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.orange)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.blue)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.yellow)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Rectangle().fill(Color.green)
+            Rectangle().fill(Color.orange)
+            Rectangle().fill(Color.blue)
+            Rectangle().fill(Color.yellow)
         }
         .ignoresSafeArea(.all)
     }

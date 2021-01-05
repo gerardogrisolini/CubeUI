@@ -1,6 +1,6 @@
 //
 //  CubeMenuView.swift
-//  iSwiftUI
+//  CubeUI
 //
 //  Created by Gerardo Grisolini on 30/12/20.
 //
@@ -44,11 +44,9 @@ public struct CubeMenuView<Menu: View, Content: View> : View {
         ZStack {
             ForEach(views.indices) { idx in
                 if indexView == idx {
-                    NavigationView {
-                        views[idx]
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                    .transition(animation)
+                    views[idx]
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .transition(animation)
                 }
             }
         }
@@ -93,66 +91,45 @@ public struct CubeMenuView<Menu: View, Content: View> : View {
 }
 
 struct CubeModifierView_Previews: PreviewProvider {
-    @State static var index = 0
+    @State static var index = 1
+
     static var previews: some View {
         CubeMenuView(index: $index) {
 
-            ZStack(alignment: .center) {
-                VStack(spacing: 50) {
-                    Button(action: { index = 1 }, label: {
-                        Text("Content 1")
-                    })
-
-                    Button(action: { index = 2 }, label: {
-                        Text("Content 2")
-                    })
-                }
+            VStack(alignment: .center, spacing: 50) {
+                Text("Menu").font(.title)
+                Button(action: { index = 1 }, label: {
+                    Text("Content 1")
+                })
+                Button(action: { index = 2 }, label: {
+                    Text("Content 2")
+                })
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
-            .navigationTitle(Text("Menu"))
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button(action: { index = 2 }) {
-                        Image(systemName: "rotate.right.fill")
-                    }
-                }
-
-                ToolbarItem(placement: .automatic) {
-                    Button(action: { index = 1 }) {
-                        Image(systemName: "rotate.left.fill")
-                    }
-                }
-            }
+            .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
             .ignoresSafeArea(.all)
 
         } content: {
             
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Content 1"))
-                .toolbar {
-                    ToolbarItem(placement: .navigation) {
-                        Button(action: { index = 0 }) {
-                            Image(systemName: "rotate.right.fill")
-                        }
-                    }
+            VStack(alignment: .center, spacing: 50) {
+                Button(action: { index = 0 }) {
+                    Image(systemName: "line.horizontal.3")
                 }
-                .ignoresSafeArea(.all)
+                Text("Content 1").font(.title)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
+            .ignoresSafeArea(.all)
             
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Content 2"))
-                .toolbar {
-                    ToolbarItem(placement: .navigation) {
-                        Button(action: { index = 1 }) {
-                            Image(systemName: "rotate.right.fill")
-                        }
-                    }
+            VStack(alignment: .center, spacing: 50) {
+                Button(action: { index = 0 }) {
+                    Image(systemName: "line.horizontal.3")
                 }
-                .ignoresSafeArea(.all)
+                Text("Content 2").font(.title)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
+            .ignoresSafeArea(.all)
         }
     }
 }
