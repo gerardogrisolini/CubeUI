@@ -111,16 +111,19 @@ struct CubeModifierView_Previews: PreviewProvider {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
             .navigationTitle(Text("Menu"))
-            .navigationBarItems(
-                leading:
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
                     Button(action: { index = 2 }) {
                         Image(systemName: "rotate.right.fill")
-                    },
-                trailing:
+                    }
+                }
+
+                ToolbarItem(placement: .automatic) {
                     Button(action: { index = 1 }) {
                         Image(systemName: "rotate.left.fill")
                     }
-            )
+                }
+            }
             .ignoresSafeArea(.all)
 
         } content: {
@@ -129,24 +132,26 @@ struct CubeModifierView_Previews: PreviewProvider {
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 1"))
-                .navigationBarItems(
-                    leading:
+                .toolbar {
+                    ToolbarItem(placement: .navigation) {
                         Button(action: { index = 0 }) {
                             Image(systemName: "rotate.right.fill")
                         }
-                )
+                    }
+                }
                 .ignoresSafeArea(.all)
             
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 2"))
-                .navigationBarItems(
-                    leading:
+                .toolbar {
+                    ToolbarItem(placement: .navigation) {
                         Button(action: { index = 1 }) {
                             Image(systemName: "rotate.right.fill")
                         }
-                )
+                    }
+                }
                 .ignoresSafeArea(.all)
         }
     }
