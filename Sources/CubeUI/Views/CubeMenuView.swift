@@ -93,23 +93,60 @@ struct CubeMenuView<Menu: View, Content: View> : View {
 }
 
 struct CubeModifierView_Previews: PreviewProvider {
+    @State static var index = 0
     static var previews: some View {
-        CubeMenuView(index: .constant(1)) {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Menu"))
-                .ignoresSafeArea(.all)
+        CubeMenuView(index: $index) {
+
+            ZStack(alignment: .center) {
+                VStack(spacing: 50) {
+                    Button(action: { index = 1 }, label: {
+                        Text("Content 1")
+                    })
+
+                    Button(action: { index = 2 }, label: {
+                        Text("Content 2")
+                    })
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
+            .navigationTitle(Text("Menu"))
+            .navigationBarItems(
+                trailing:
+                    Button(action: { index = 1 }) {
+                        Image(systemName: "rotate.left.fill")
+                    }
+                leading:
+                    Button(action: { index = 2 }) {
+                        Image(systemName: "rotate.right.fill")
+                    }
+            )
+            .ignoresSafeArea(.all)
+
         } content: {
+            
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 1"))
+                .navigationBarItems(
+                    leading:
+                        Button(action: { index = 0 }) {
+                            Image(systemName: "rotate.right.fill")
+                        }
+                )
                 .ignoresSafeArea(.all)
+            
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 2"))
+                .navigationBarItems(
+                    leading:
+                        Button(action: { index = 1 }) {
+                            Image(systemName: "rotate.right.fill")
+                        }
+                )
                 .ignoresSafeArea(.all)
         }
     }
