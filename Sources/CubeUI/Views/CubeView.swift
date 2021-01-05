@@ -26,7 +26,7 @@ public struct CubeView<Content: View>: View {
     
     var views: [AnyView] = []
 
-    init(@ViewBuilder content: () -> Content) {
+    public init(@ViewBuilder content: () -> Content) {
         let m = Mirror(reflecting: content())
         if let value = m.descendant("value") {
             let tupleMirror = Mirror(reflecting: value)

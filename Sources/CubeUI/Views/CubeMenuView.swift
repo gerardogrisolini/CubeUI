@@ -17,7 +17,7 @@ public struct CubeMenuView<Menu: View, Content: View> : View {
 
     var views: [AnyView] = []
     
-    init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> Content) {
+    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> Content) {
         _index = index
         
         views.append(AnyView(menu()))
