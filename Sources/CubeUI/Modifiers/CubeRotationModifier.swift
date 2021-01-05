@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CubeRotationModifier: AnimatableModifier {
+public struct CubeRotationModifier: AnimatableModifier {
     
     enum SlideDirection {
         case enter
@@ -17,12 +17,12 @@ struct CubeRotationModifier: AnimatableModifier {
     var pct: Double
     var direction: SlideDirection
     
-    var animatableData: Double {
+    public var animatableData: Double {
         get { pct }
         set { pct = newValue }
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         GeometryReader { geo in
             content
                 .rotation3DEffect(
@@ -36,7 +36,7 @@ struct CubeRotationModifier: AnimatableModifier {
         }
     }
 
-    func calcTranslation(geo: GeometryProxy) -> CGFloat {
+    private func calcTranslation(geo: GeometryProxy) -> CGFloat {
         if direction == .enter {
             return geo.size.width - (CGFloat(pct) * geo.size.width)
         } else {
@@ -44,7 +44,7 @@ struct CubeRotationModifier: AnimatableModifier {
         }
     }
     
-    func calcRotation() -> Double {
+    private func calcRotation() -> Double {
         if direction == .enter {
             return 90 - (pct * 90)
         } else {

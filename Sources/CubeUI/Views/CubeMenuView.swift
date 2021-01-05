@@ -12,14 +12,13 @@ public struct CubeMenuView<Menu: View, Content: View> : View {
     @State private var animation : AnyTransition = .cubeRotationLeft
     @State private var startPos : CGPoint = .zero
     @State private var isSwipping = true
-    @State private var indexView: Int
+    @State private var indexView: Int = 0
 
     @Binding var index: Int
     private var views: [AnyView] = []
     
     public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> Content) {
         _index = index
-        _indexView = State(initialValue: _index.wrappedValue)
         
         views.append(AnyView(menu()))
         let m = Mirror(reflecting: content())
