@@ -12,136 +12,33 @@ public struct CubeMenuView<Menu: View, Content: View> : View {
     @State private var animation : AnyTransition = .cubeRotationLeft
     @State private var startPos : CGPoint = .zero
     @State private var isSwipping = true
-    @State private var indexView = 0
+    @State private var indexView: Int
 
     @Binding var index: Int
-    private let views: [AnyView]
+    private var views: [AnyView] = []
     
     public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> Content) {
         _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content())
-        ]
+        _indexView = State(initialValue: _index.wrappedValue)
+        
+        views.append(AnyView(menu()))
+        let m = Mirror(reflecting: content())
+        if let value = m.descendant("value") {
+            let tupleMirror = Mirror(reflecting: value)
+            let tupleElements = tupleMirror.children.map({ AnyView(_fromValue: $0.value)! })
+            views.append(contentsOf: tupleElements)
+        }
     }
 
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1)
-        ]
-    }
+//    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content)> ) {
+//        _index = index
+//        views = [
+//            AnyView(menu()),
+//            AnyView(content().value.0),
+//            AnyView(content().value.1)
+//        ]
+//    }
 
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4),
-            AnyView(content().value.5)
-        ]
-    }
-    
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4),
-            AnyView(content().value.5),
-            AnyView(content().value.6)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4),
-            AnyView(content().value.5),
-            AnyView(content().value.6),
-            AnyView(content().value.7)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4),
-            AnyView(content().value.5),
-            AnyView(content().value.6),
-            AnyView(content().value.7),
-            AnyView(content().value.8)
-        ]
-    }
-
-    public init(index: Binding<Int>, @ViewBuilder menu: () -> Menu, @ViewBuilder content: () -> TupleView<(Content, Content, Content, Content, Content, Content, Content, Content, Content, Content)> ) {
-        _index = index
-        views = [
-            AnyView(menu()),
-            AnyView(content().value.0),
-            AnyView(content().value.1),
-            AnyView(content().value.2),
-            AnyView(content().value.3),
-            AnyView(content().value.4),
-            AnyView(content().value.5),
-            AnyView(content().value.6),
-            AnyView(content().value.7),
-            AnyView(content().value.8),
-            AnyView(content().value.9)
-        ]
-    }
-    
     public var body: some View {
         ZStack {
             ForEach(views.indices) { idx in
