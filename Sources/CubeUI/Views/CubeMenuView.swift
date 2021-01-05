@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CubeMenuView<Menu: View, Content: View> : View {
+public struct CubeMenuView<Menu: View, Content: View> : View {
 
     @State private var animation : AnyTransition = .cubeRotationLeft
     @State private var startPos : CGPoint = .zero
@@ -40,7 +40,7 @@ struct CubeMenuView<Menu: View, Content: View> : View {
 //        views.append(AnyView(content().value.1))
 //    }
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             ForEach(views.indices) { idx in
                 if indexView == idx {
@@ -112,13 +112,13 @@ struct CubeModifierView_Previews: PreviewProvider {
             .background(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
             .navigationTitle(Text("Menu"))
             .navigationBarItems(
-                trailing:
-                    Button(action: { index = 1 }) {
-                        Image(systemName: "rotate.left.fill")
-                    }
                 leading:
                     Button(action: { index = 2 }) {
                         Image(systemName: "rotate.right.fill")
+                    },
+                trailing:
+                    Button(action: { index = 1 }) {
+                        Image(systemName: "rotate.left.fill")
                     }
             )
             .ignoresSafeArea(.all)
