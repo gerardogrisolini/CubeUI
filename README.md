@@ -78,10 +78,18 @@ import CubeUI
 struct ContentView: View {
     var body: some View {
         CubeView {
-            Image("0").resizable()
-            Image("1").resizable()
-            Image("2").resizable()
-            Image("3").resizable()
+            Rectangle()
+                .fill(Color.orange)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Rectangle()
+                .fill(Color.blue)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Rectangle()
+                .fill(Color.green)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Rectangle()
+                .fill(Color.yellow)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .ignoresSafeArea(.all)
     }
