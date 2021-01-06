@@ -23,47 +23,31 @@ struct ContentView: View {
     var body: some View {
     
         CubeMenuView(index: $index) {
+            
             Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomLeading, endPoint: .topTrailing))
+                .fill(Color.orange)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Menu"))
-                .navigationBarItems(
-                    trailing:
-                        Button(action: { index = 1 }) {
-                            Image(systemName: "rotate.left.fill")
-                        }
-                    leading:
-                        Button(action: { index = 2 }) {
-                            Image(systemName: "rotate.right.fill")
-                        }
-                )
-                .ignoresSafeArea(.all)
                 
         } content: {
         
             Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
+                .fill(Color.blue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 1"))
-                .navigationBarItems(
-                    leading:
-                        Button(action: { index = 0 }) {
-                            Image(systemName: "rotate.left.fill")
-                        }
-                )
-                .ignoresSafeArea(.all)
                 
             Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .bottomTrailing, endPoint: .topLeading))
+                .fill(Color.green)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(Text("Content 2"))
-                .navigationBarItems(
-                    leading:
-                        Button(action: { index = 0 }) {
-                            Image(systemName: "rotate.left.fill")
-                        }
-                )
-                .ignoresSafeArea(.all)
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: { index = index > 0 ? 0 : 1 }) {
+                    Image(systemName: "line.horizontal.3")
+                        .foregroundColor(.white)
+                }
+            }
         }
     }
 }
