@@ -16,27 +16,29 @@ dependencies: [
 import SwiftUI
 import CubeUI
 
+struct SideView: View {
+    var number: Int
+    var color: Color
+    
+    var body: some View {
+        Text("Content \(number)")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(color)
+    }
+}
+
 struct ContentView: View {
-
-    @State private var index: Int = 1
-
+    @State private var index: Int = 0
+    
     var body: some View {
         CubeView(index: $index, mode: .drag) {
-            Text("1")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.orange)
-            Text("2")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.gray)
-            Text("3")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.green)
-            Text("4")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.yellow)
+            SideView(number: 1, color: .blue)
+            SideView(number: 2, color: .orange)
+            SideView(number: 3, color: .green)
+            SideView(number: 4, color: .yellow)
         }
         .toolbar {
-            ToolbarItem(placement: .navigation) {
+            ToolbarItem(placement: .primaryAction) {
                 Button(action: { index = 0 }) {
                     Image(systemName: "line.horizontal.3")
                 }
