@@ -6,7 +6,7 @@
 
 ```
 dependencies: [
-    .package(url: "https://github.com/gerardogrisolini/CubeUI.git", from: "1.0.0")
+    .package(url: "https://github.com/gerardogrisolini/CubeUI.git", from: "1.0.8")
 ]
 ```
 
