@@ -25,8 +25,7 @@ public struct CubeView<Content: View>: View {
     }
     
     @State private var direction: DragDirection = .next
-    @State private var startPos : CGPoint = .zero
-    @State private var isSwipping = true
+    @State private var isReady: Bool = true
     @State private var pct: Double = 0
     @State private var diff: Double = 0
     @State private var indexView: Int = 0
@@ -35,16 +34,9 @@ public struct CubeView<Content: View>: View {
     private let mode: CubeMode
     private var views: [AnyView] = []
 
-    public init(index: Binding<Int>, mode: CubeMode, @ViewBuilder content: () -> Content) {
-        self.mode = mode
-        _index = index
-        
-        let m = Mirror(reflecting: content())
-        if let value = m.descendant("value") {
-            let tupleMirror = Mirror(reflecting: value)
-            let tupleElements = tupleMirror.children.map({ AnyView(_fromValue: $0.value)! })
-            views.append(contentsOf: tupleElements)
-        }
+    public var animatableData: Double {
+        get { pct }
+        set { pct = newValue }
     }
     
     private var next: Int {
@@ -65,10 +57,21 @@ public struct CubeView<Content: View>: View {
         views[direction == .next ? next : indexView]
     }
 
+    public init(index: Binding<Int>, mode: CubeMode, @ViewBuilder content: () -> Content) {
+        self.mode = mode
+        _index = index
+        
+        let m = Mirror(reflecting: content())
+        if let value = m.descendant("value") {
+            let tupleMirror = Mirror(reflecting: value)
+            let tupleElements = tupleMirror.children.map({ AnyView(_fromValue: $0.value)! })
+            views.append(contentsOf: tupleElements)
+        }
+    }
+    
     public var body: some View {
         GeometryReader { geo in
             ZStack {
-
                 primaryView
                     .frame(width: geo.size.width, height: geo.size.height)
                     .rotation3DEffect(
@@ -80,7 +83,6 @@ public struct CubeView<Content: View>: View {
                     )
                     .transformEffect(.init(translationX: calcTranslation(geo: geo, direction: .exit), y: 0))
                     .scaleEffect(calcScale())
-
                 secondaryView
                     .frame(width: geo.size.width, height: geo.size.height)
                     .rotation3DEffect(
@@ -92,23 +94,18 @@ public struct CubeView<Content: View>: View {
                     )
                     .transformEffect(.init(translationX: calcTranslation(geo: geo, direction: .enter), y: 0))
                     .scaleEffect(calcScale())
-
             }
             .onReceive([self.index].publisher.first()) { value in
                 guard pct == 0 || pct == 1 else { return }
                 
-                //debugPrint("value: \(value)  indexView: \(indexView)   direction: \(direction)")
-
                 if value == 0 && indexView == views.count - 1 {
                     rotate(direction: .next, count: 1)
                     return
                 }
-                
                 if indexView == 0 && value == views.count - 1 {
                     rotate(direction: .prev, count: 1)
                     return
                 }
-
                 if value > indexView {
                     rotate(direction: .next, count: value - indexView)
                 }
@@ -131,7 +128,6 @@ public struct CubeView<Content: View>: View {
     }
     
     private func rotate(direction: DragDirection, count: Int) {
-        //print("rotate(\(direction)): \(count)")
         guard count > 0 else { return }
         
         DispatchQueue.global(qos: .background).async {
@@ -149,32 +145,26 @@ public struct CubeView<Content: View>: View {
     
     private func dragEnded(gesture: DragGesture.Value) {
         if mode == .swipe {
-            let xDist = abs(gesture.location.x - self.startPos.x)
-            let yDist = abs(gesture.location.y - self.startPos.y)
-            if self.startPos.x > gesture.location.x && yDist < xDist {
+            let xDist = abs(gesture.location.x - gesture.startLocation.x)
+            let yDist = abs(gesture.location.y - gesture.startLocation.y)
+            if gesture.startLocation.x > gesture.location.x && yDist < xDist {
                 // Left
                 index = indexView == views.count - 1 ? 1 : indexView + 1
             }
-            else if self.startPos.x < gesture.location.x && yDist < xDist {
+            else if gesture.startLocation.x < gesture.location.x && yDist < xDist {
                 // Right
                 index = indexView > 0 ? indexView - 1 : 0
             }
-            self.isSwipping.toggle()
-            
         } else if mode == .drag {
             // save difference in case of unfinished rotation
             diff = pct
+            isReady = true
         }
     }
     
     private func dragChange(gesture: DragGesture.Value) {
-        if mode == .swipe && self.isSwipping {
-            self.startPos = gesture.location
-            self.isSwipping.toggle()
-            
-        } else if mode == .drag {
+        if mode == .drag {
             var newValue = (Double(gesture.translation.width) / 250) * -1
-            //debugPrint("value: \(newValue)\tdiff: \(diff)\tpct: \(pct)")
 
             /// limit in rewind after unfinished rotation
             if diff > 0 && newValue < 0 {
@@ -200,12 +190,14 @@ public struct CubeView<Content: View>: View {
             if newValue < -1 {
                 newValue = -1
             }
-
+            
             calcChanged(toValue: newValue)
         }
     }
     
     private func calcChanged(toValue value: Double) {
+        guard isReady else { return }
+        
         switch value {
         case 0.01...1:
             direction = .next
@@ -214,6 +206,7 @@ public struct CubeView<Content: View>: View {
                     pct = 0
                     indexView = next
                     index = Int(indexView)
+                    isReady = false
                 }
             } else {
                 pct = value
@@ -225,6 +218,7 @@ public struct CubeView<Content: View>: View {
                     pct = 0
                     indexView = prev
                     index = Int(indexView)
+                    isReady = false
                 }
             } else {
                 pct = value
