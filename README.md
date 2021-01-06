@@ -10,7 +10,7 @@ dependencies: [
 ]
 ```
 
-#### Example CubeMenuView
+#### Example CubeView
 
 ```
 import SwiftUI
@@ -21,61 +21,27 @@ struct ContentView: View {
     @State private var index: Int = 1
 
     var body: some View {
-    
-        CubeMenuView(index: $index) {
-            
-            Rectangle()
-                .fill(Color.orange)
+        CubeView(index: $index, mode: .drag) {
+            Text("1")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Menu"))
-                
-        } content: {
-        
-            Rectangle()
-                .fill(Color.blue)
+                .background(Color.orange)
+            Text("2")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Content 1"))
-                
-            Rectangle()
-                .fill(Color.green)
+                .background(Color.gray)
+            Text("3")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(Text("Content 2"))
+                .background(Color.green)
+            Text("4")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.yellow)
         }
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: { index = index > 0 ? 0 : 1 }) {
+            ToolbarItem(placement: .navigation) {
+                Button(action: { index = 0 }) {
                     Image(systemName: "line.horizontal.3")
-                        .foregroundColor(.white)
                 }
             }
         }
-    }
-}
-```
-
-#### Example CubeView
-
-```
-import SwiftUI
-import CubeUI
-
-struct ContentView: View {
-    var body: some View {
-        CubeView {
-            Rectangle()
-                .fill(Color.orange)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.blue)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.green)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Rectangle()
-                .fill(Color.yellow)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .ignoresSafeArea(.all)
     }
 }
 ```
