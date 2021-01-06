@@ -82,7 +82,8 @@ public struct CubeView<Content: View>: View {
                         perspective: 0.5
                     )
                     .transformEffect(.init(translationX: calcTranslation(geo: geo, direction: .exit), y: 0))
-                    .scaleEffect(calcScale())
+                    //.scaleEffect(calcScale())
+
                 secondaryView
                     .frame(width: geo.size.width, height: geo.size.height)
                     .rotation3DEffect(
@@ -93,7 +94,7 @@ public struct CubeView<Content: View>: View {
                         perspective: 0.5
                     )
                     .transformEffect(.init(translationX: calcTranslation(geo: geo, direction: .enter), y: 0))
-                    .scaleEffect(calcScale())
+                    //.scaleEffect(calcScale())
             }
             .onReceive([self.index].publisher.first()) { value in
                 guard pct == 0 || pct == 1 else { return }
@@ -246,17 +247,17 @@ public struct CubeView<Content: View>: View {
         }
     }
     
-    private func calcScale() -> CGFloat {
-        var degree = Double(direction == .next ? pct : pct * -1)
-        if degree < 0.5 {
-            degree = 1 - degree
-        }
-        if degree < 0.95 {
-            return 0.95
-        }
-
-        return CGFloat(degree)
-    }
+//    private func calcScale() -> CGFloat {
+//        var degree = Double(direction == .next ? pct : pct * -1)
+//        if degree < 0.5 {
+//            degree = 1 - degree
+//        }
+//        if degree < 0.95 {
+//            return 0.95
+//        }
+//
+//        return CGFloat(degree)
+//    }
 }
 
 
@@ -271,5 +272,6 @@ struct CubeView_Previews: PreviewProvider {
         .ignoresSafeArea(.all)
     }
 }
+
 
 
