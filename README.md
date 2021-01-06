@@ -10,7 +10,7 @@ dependencies: [
 ]
 ```
 
-#### Example CubeView
+#### Example
 
 ```
 import SwiftUI
