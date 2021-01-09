@@ -26,7 +26,7 @@ final class CubeViewModel: ObservableObject {
             .sink { [unowned self] value in
                 if value == 0 {
                     currentIndex = index
-                } else if mode == .drag {
+                } else if mode == .drag && isReady {
                     pct = 0
                 }
             }

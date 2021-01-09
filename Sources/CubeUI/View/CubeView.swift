@@ -75,10 +75,11 @@ public struct CubeView<Content: View>: View {
     private func externalChange(index value: Int) {
         guard value != viewModel.index else { return }
         
+        viewModel.isReady = false
         if value > viewModel.index {
             viewModel.direction = .next
             let a = value - viewModel.index
-            let b = views.count - viewModel.index + value
+            let b = views.count - (viewModel.index == 0 ? value : viewModel.index + value)
             if b < a {
                 viewModel.direction = .prev
                 rotate(count: b, incrementBy: -1)
@@ -126,6 +127,7 @@ public struct CubeView<Content: View>: View {
     private func rotate(count: Int = 1, incrementBy: Int = 0) {
         guard count > 0 else { return }
         
+        viewModel.pct = 0
         let pct = viewModel.direction == .next ? 1.0 : -1.0
         for val in 0..<count {
             let delay = TimeInterval(val)
@@ -228,6 +230,7 @@ public struct CubeView<Content: View>: View {
     }
 }
 
+
 struct CubeView_Previews: PreviewProvider {
     static var previews: some View {
         CubeView(index: .constant(0), mode: .swipe) {
@@ -239,6 +242,3 @@ struct CubeView_Previews: PreviewProvider {
         .ignoresSafeArea(.all)
     }
 }
-
-
-
