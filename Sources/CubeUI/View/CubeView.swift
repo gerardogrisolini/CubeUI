@@ -230,15 +230,29 @@ public struct CubeView<Content: View>: View {
     }
 }
 
-
+#if DEBUG
 struct CubeView_Previews: PreviewProvider {
+
+    private struct SideView: View {
+        var number: Int
+        var color: Color
+        
+        var body: some View {
+            Text("Content \(number)")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(.white)
+                .background(color)
+        }
+    }
+    
     static var previews: some View {
-        CubeView(index: .constant(0), mode: .swipe) {
-            Rectangle().fill(Color.green)
-            Rectangle().fill(Color.orange)
-            Rectangle().fill(Color.blue)
-            Rectangle().fill(Color.yellow)
+        CubeView(index: .constant(0), mode: .drag) {
+            SideView(number: 1, color: .blue)
+            SideView(number: 2, color: .orange)
+            SideView(number: 3, color: .green)
+            SideView(number: 4, color: .yellow)
         }
         .ignoresSafeArea(.all)
     }
 }
+#endif
