@@ -38,10 +38,10 @@ public struct CubeRotationModifier: AnimatableModifier {
                     axis: (x: 0.0, y: 1.0, z: 0.0),
                     anchor: translation == .enter ? .leading : .trailing,
                     anchorZ: 0,
-                    perspective: 0.3
+                    perspective: 0.5
                 )
                 .transformEffect(.init(translationX: calcTranslation(geo: geo), y: 0))
-                .scaleEffect(calcScale())
+//                .scaleEffect(calcScale())
         }
     }
 
