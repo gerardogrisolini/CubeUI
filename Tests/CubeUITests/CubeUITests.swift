@@ -6,7 +6,7 @@ final class CubeUITests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        //XCTAssertEqual(CubeUI().text, "Hello, World!")
+        XCTAssertEqual(CubeUI().version, "1.1.2")
     }
 
     static var allTests = [

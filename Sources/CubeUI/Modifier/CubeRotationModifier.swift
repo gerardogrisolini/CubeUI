@@ -38,10 +38,10 @@ public struct CubeRotationModifier: AnimatableModifier {
                     axis: (x: 0.0, y: 1.0, z: 0.0),
                     anchor: translation == .enter ? .leading : .trailing,
                     anchorZ: 0,
-                    perspective: 0.5
+                    perspective: 0.3
                 )
                 .transformEffect(.init(translationX: calcTranslation(geo: geo), y: 0))
-                //.scaleEffect(calcScale())
+                .scaleEffect(calcScale())
         }
     }
 
@@ -63,17 +63,17 @@ public struct CubeRotationModifier: AnimatableModifier {
         }
     }
     
-//    private func calcScale() -> CGFloat {
-//        var degree = Double(direction == .next ? pct : pct * -1)
-//        if degree < 0.5 {
-//            degree = 1 - degree
-//        }
-//        if degree < 0.95 {
-//            return 0.95
-//        }
-//
-//        return CGFloat(degree)
-//    }
+    private func calcScale() -> CGFloat {
+        var degree = Double(rotation == .next ? pct : pct * -1)
+        if degree < 0.5 {
+            degree = 1 - degree
+        }
+        if degree < 0.9 {
+            return 0.9
+        }
+
+        return CGFloat(degree)
+    }
 }
 
 extension AnyTransition {

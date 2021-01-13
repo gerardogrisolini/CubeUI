@@ -130,21 +130,23 @@ public struct CubeView<Content: View>: View {
         viewModel.pct = 0
         let pct = viewModel.direction == .next ? 1.0 : -1.0
         for val in 0..<count {
-            let delay = TimeInterval(val)
+            let delay = TimeInterval(val/2)
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                viewModel.index += incrementBy
-                if viewModel.index == -1 {
+                if viewModel.index + incrementBy == -1 {
                     viewModel.index = views.count - 1
                 }
-                else if viewModel.index == views.count {
+                else if viewModel.index + incrementBy == views.count {
                     viewModel.index = 0
                 }
-                withAnimation(.linear(duration: TimeInterval(1))) {
+                else {
+                    viewModel.index += incrementBy
+                }
+                withAnimation(.linear(duration: TimeInterval(0.5))) {
                     viewModel.pct = pct
                 }
             }
         }
-   }
+    }
     
     private func dragEnded(gesture: DragGesture.Value) {
         if mode == .swipe {
@@ -162,6 +164,7 @@ public struct CubeView<Content: View>: View {
         else if mode == .drag {
             // save difference in case of unfinished rotation
             viewModel.diff = viewModel.pct
+            viewModel.isReady = true
         }
     }
     
@@ -209,7 +212,6 @@ public struct CubeView<Content: View>: View {
                     viewModel.pct = value
                 }
             } else {
-                viewModel.isReady = true
                 viewModel.pct = value
             }
         case -1...(-0.01):
@@ -221,7 +223,6 @@ public struct CubeView<Content: View>: View {
                     viewModel.pct = value
                 }
             } else {
-                viewModel.isReady = true
                 viewModel.pct = value
             }
         default:
