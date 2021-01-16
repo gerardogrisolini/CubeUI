@@ -1,6 +1,6 @@
 //
 //  CubeRotationModifier.swift
-//  CubeUI
+//  ZenUI
 //
 //  Created by Gerardo Grisolini on 29/12/20.
 //
@@ -8,11 +8,12 @@
 import SwiftUI
 
 public struct CubeRotationModifier: AnimatableModifier {
+    
     var pct: Double
     var translation: TranslationDirection
     var rotation: RotationDirection
     private var completion: () -> Void
-
+    
     public var animatableData: Double {
         get { pct }
         set {
@@ -44,7 +45,7 @@ public struct CubeRotationModifier: AnimatableModifier {
 //                .scaleEffect(calcScale())
         }
     }
-
+    
     private func calcTranslation(geo: GeometryProxy) -> CGFloat {
         let degree = rotation == .next ? pct : pct + 1
         if translation == .enter {
@@ -71,14 +72,14 @@ public struct CubeRotationModifier: AnimatableModifier {
         if degree < 0.9 {
             return 0.9
         }
-
+        
         return CGFloat(degree)
     }
 }
 
 extension AnyTransition {
     static var cubeRotationRight: AnyTransition {
-       .asymmetric(
+        .asymmetric(
             insertion:
                 AnyTransition.modifier(
                     active: CubeRotationModifier(pct: 1, translation: .exit, rotation: .prev) { },
@@ -92,7 +93,7 @@ extension AnyTransition {
         )
     }
     static var cubeRotationLeft: AnyTransition {
-       .asymmetric(
+        .asymmetric(
             insertion:
                 AnyTransition.modifier(
                     active: CubeRotationModifier(pct: 0, translation: .enter, rotation: .next) { },

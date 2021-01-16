@@ -1,7 +1,7 @@
 import XCTest
 
-import CubeUITests
+import ZenUITests
 
 var tests = [XCTestCaseEntry]()
-tests += CubeUITests.allTests()
+tests += ZenUITests.allTests()
 XCTMain(tests)

@@ -1,6 +1,6 @@
 //
 //  CubeView.swift
-//  CubeUI
+//  ZenUI
 //
 //  Created by Gerardo Grisolini on 06/01/21.
 //
@@ -247,7 +247,7 @@ struct CubeView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        CubeView(index: .constant(0), mode: .drag) {
+        CubeView(index: .constant(0), mode: .swipe) {
             SideView(number: 1, color: .blue)
             SideView(number: 2, color: .orange)
             SideView(number: 3, color: .green)
