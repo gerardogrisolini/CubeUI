@@ -78,11 +78,6 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("\(offset)")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Refreshing") { isRefresh.toggle() }
-                }
-            }
         }
         .onAppear {
             refresh()
