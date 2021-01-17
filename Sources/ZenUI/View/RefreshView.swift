@@ -31,7 +31,7 @@ public struct RefreshView<Content: View>: View {
     
     public var body: some View {
         ZStack(alignment: .top) {
-            if viewModel.isRefresh {
+            if isRefresh {
                 ProgressView()
                     .padding()
                     .background(Color.white.opacity(0.75).clipShape(Circle()))
@@ -70,7 +70,7 @@ public struct RefreshView<Content: View>: View {
 
 struct RefreshView_Previews: PreviewProvider {
     @State static var offset: CGFloat = 0
-    @State static var isRefresh: Bool = false
+    @State static var isRefresh: Bool = true
     
     static var previews: some View {
         
