@@ -9,23 +9,23 @@ import SwiftUI
 
 
 public struct RefreshView<Content: View>: View {
-    
-    private let content: Content
-    private var hideNavigationView: Bool
-    
+        
     @StateObject private var viewModel = RefreshViewModel()
     @Binding var offset: CGFloat
     @Binding var isRefresh: Bool
     
+    private let onRefresh: () -> ()
+    private let content: Content
+
     public init(
         offset: Binding<CGFloat>,
         isRefresh: Binding<Bool>,
-        hideNavigationView: Bool = false,
+        onRefresh: @escaping () -> (),
         @ViewBuilder content: () -> Content
     ) {
         _offset = offset
         _isRefresh = isRefresh
-        self.hideNavigationView = hideNavigationView
+        self.onRefresh = onRefresh
         self.content = content()
     }
     
@@ -44,13 +44,15 @@ public struct RefreshView<Content: View>: View {
                         Color.clear
                             .preference(key: ViewHeightKey.self, value: inReader.frame(in: .global).minY - viewModel.navBarHeight - 47)
                     }
-                    
                     self.content
                 }
                 .onChange(of: isRefresh) { value in
                     viewModel.isRefresh = value
                 }
                 .onReceive(viewModel.$isRefresh, perform: { value in
+                    if !isRefresh && value == true {
+                        onRefresh()
+                    }
                     isRefresh = value
                 })
                 .onPreferenceChange(ViewHeightKey.self) {
@@ -59,12 +61,9 @@ public struct RefreshView<Content: View>: View {
                 }
                 .background(NavBarAccessor { navBar in
                     viewModel.navBarHeight = navBar.bounds.height
-                    print(">> NavBar height: \(viewModel.navBarHeight)")
                 })
             } 
         }
-        .navigationBarHidden(hideNavigationView && viewModel.isHidden)
-        //.animation(.interactiveSpring())
     }
 }
 
@@ -74,7 +73,8 @@ struct RefreshView_Previews: PreviewProvider {
     @State static var isRefresh: Bool = false
     
     static var previews: some View {
-        RefreshView(offset: $offset, isRefresh: $isRefresh) {
+        
+        RefreshView(offset: $offset, isRefresh: $isRefresh, onRefresh: { print("onRefresh") }) {
             
             Text("\(offset) - \(isRefresh.description)")
                 .font(.title)
