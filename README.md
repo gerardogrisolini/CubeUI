@@ -22,6 +22,7 @@ struct ContentView: View {
     var body: some View {
     
         CubeView(index: $index, mode: .drag) {
+        
             SideView(number: 1, color: .blue)
             SideView(number: 2, color: .orange)
             SideView(number: 3, color: .green)
@@ -57,19 +58,36 @@ import SwiftUI
 import ZenUI
 
 struct ContentView: View {
-    
     @State var offset: CGFloat = 0
     @State var isRefresh: Bool = false
     
     var body: some View {
+        NavigationView {
+        
+            RefreshView(offset: $offset, isRefresh: $isRefresh, onRefresh: refresh) {
+                
+                LazyVStack(alignment: .leading, spacing: 1) {
+                    ForEach(0...100, id: \.self) { value in
+                        Text(value.description)
+                            .frame(maxWidth: .infinity)
+                            .font(.title3)
+                            .padding()
+                    }
+                }
+            }
+            .navigationTitle("\(offset)")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Refreshing") { isRefresh.toggle() }
+                }
+            }
+        }
+    }
     
-        RefreshView(offset: $offset, isRefresh: $isRefresh) {
-            
-            Text("\(offset) - \(isRefresh.description)")
-                .font(.title)
-                .frame(maxWidth: .infinity)
+    private func refresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+            isRefresh = false
         }
     }
 }
 ```
-
