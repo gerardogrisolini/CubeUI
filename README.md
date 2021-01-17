@@ -6,7 +6,7 @@
 
 ```
 dependencies: [
-    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.1.6")
+    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.1.7")
 ]
 ```
 
@@ -58,16 +58,18 @@ import SwiftUI
 import ZenUI
 
 struct ContentView: View {
-    @State var offset: CGFloat = 0
-    @State var isRefresh: Bool = false
+    @State private var index: Int = 0
+    @State private var offset: CGFloat = 0
+    @State private var isRefresh: Bool = false
+    @State private var data: [Int] = []
     
     var body: some View {
         NavigationView {
         
             RefreshView(offset: $offset, isRefresh: $isRefresh, onRefresh: refresh) {
-                
+        
                 LazyVStack(alignment: .leading, spacing: 1) {
-                    ForEach(0...100, id: \.self) { value in
+                    ForEach(data, id: \.self) { value in
                         Text(value.description)
                             .frame(maxWidth: .infinity)
                             .font(.title3)
@@ -82,10 +84,16 @@ struct ContentView: View {
                 }
             }
         }
+        .onAppear {
+            refresh()
+        }
     }
     
     private func refresh() {
+        isRefresh = true
+        data.removeAll()
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+            data.append(contentsOf: 0...100)
             isRefresh = false
         }
     }
