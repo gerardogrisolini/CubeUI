@@ -33,6 +33,7 @@ public struct RefreshView<Content: View>: View {
     
     public var body: some View {
         ZStack(alignment: .top) {
+
             if isRefresh {
                 if let icon = icon {
                     icon
@@ -68,6 +69,7 @@ public struct RefreshView<Content: View>: View {
 }
 
 
+#if DEBUG
 struct RefreshView_Previews: PreviewProvider {
     @State static var offset: CGFloat = 0
     @State static var isRefresh: Bool = true
@@ -80,10 +82,10 @@ struct RefreshView_Previews: PreviewProvider {
             onRefresh: { print("onRefresh") },
             icon: AnyView(Image(systemName: "message"))
         ) {
-            
             Text("\(offset) - \(isRefresh.description)")
                 .font(.title)
                 .frame(maxWidth: .infinity)
         }
     }
 }
+#endif
