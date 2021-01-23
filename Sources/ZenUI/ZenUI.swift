@@ -25,7 +25,7 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
                 Text("Content")
             },
             visible: true,
-            title: "RefreshView",
+            title: "Refresh View",
             category: .control,
             matchingSignature: "rw"
         )
@@ -45,7 +45,7 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
                     .background(Color.yellow)
             },
             visible: true,
-            title: "CubeView",
+            title: "Cube View",
             category: .control,
             matchingSignature: "cw"
         )
