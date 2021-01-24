@@ -6,7 +6,7 @@
 
 ```
 dependencies: [
-    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.1.8")
+    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.2.0")
 ]
 ```
 
