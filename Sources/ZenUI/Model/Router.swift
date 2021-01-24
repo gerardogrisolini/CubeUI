@@ -23,6 +23,8 @@ public class Router {
     let navStack = NavigationStack(easing: Animation.easeOut(duration: 0.2))
     public var checkpoint: String? = nil
 
+    public init() { }
+    
     public func popToRoot() {
         self.navStack.pop(to: .root)
     }
