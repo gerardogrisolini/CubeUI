@@ -12,7 +12,7 @@ public struct ZenScrollView<Content: View>: View {
     @State private var navBarHeight: CGFloat = 0
     @Binding var offset: CGFloat
     
-    private let content: Content
+    let content: Content
 
     public init(offset: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
         _offset = offset
