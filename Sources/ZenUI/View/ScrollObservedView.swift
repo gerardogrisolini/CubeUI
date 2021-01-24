@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct ScrollObservedView<Content: View>: View {
+public struct ScrollObservedView<Content: View>: View {
     
     @State private var navBarHeight: CGFloat = 0
     @Binding var offset: CGFloat
     
     private let content: Content
 
-    init(offset: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
+    public init(offset: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
         _offset = offset
         self.content = content()
     }
     
-    var body: some View {
+    public var body: some View {
         ScrollView(showsIndicators: false) {
             ZStack {
                 GeometryReader { inReader in
@@ -45,7 +45,7 @@ struct ScrollObservedView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollObservedView(offset: $offset) {
 //            RefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
-//                
+//
 //                Text("ScrollObservedView")
 //            }
         }
