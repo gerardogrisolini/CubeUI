@@ -6,7 +6,7 @@
 
 ```
 dependencies: [
-    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.2.0")
+    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.2.1")
 ]
 ```
 
@@ -77,7 +77,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("\(scrollOffset)")
+            .navigationTitle("\(offset)")
         }
         .onAppear {
             refresh()
@@ -85,11 +85,11 @@ struct ContentView: View {
     }
     
     private func refresh() {
-        isRefresh = true
+        isRefreshing = true
         data.removeAll()
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             data.append(contentsOf: 0...100)
-            isRefresh = false
+            isRefreshing = false
         }
     }
 }
