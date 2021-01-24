@@ -59,14 +59,14 @@ import ZenUI
 
 struct ContentView: View {
     @State private var index: Int = 0
-    @State private var offset: CGFloat = 0
-    @State private var isRefresh: Bool = false
+    @State private var scrollOffset: CGFloat = 0
+    @State private var isRefreshing: Bool = false
     @State private var data: [Int] = []
     
     var body: some View {
         NavigationView {
         
-            RefreshView(offset: $offset, isRefresh: $isRefresh, onRefresh: refresh) {
+            RefreshView(scrollOffset: $scrollOffset, isRefreshing: $isRefreshing, onRefreshing: refresh) {
         
                 LazyVStack(alignment: .leading, spacing: 1) {
                     ForEach(data, id: \.self) { value in
@@ -77,7 +77,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("\(offset)")
+            .navigationTitle("\(scrollOffset)")
         }
         .onAppear {
             refresh()

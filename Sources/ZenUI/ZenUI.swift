@@ -10,7 +10,7 @@ import SwiftUI
 struct ZenUI_LibraryContent: LibraryContentProvider {
 
     @State private var offset: CGFloat = 0
-    @State private var isRefresh: Bool = true
+    @State private var isRefreshing: Bool = true
     @State private var index: Int = 0
 
     @LibraryContentBuilder public func modifiers(base: Text) -> [LibraryItem] {
@@ -21,7 +21,7 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
 
     public var views: [LibraryItem] {
         LibraryItem(
-            RefreshView(offset: $offset, isRefresh: $isRefresh, onRefresh: { print("onRefresh") }) {
+            RefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
                 Text("Content")
             },
             visible: true,

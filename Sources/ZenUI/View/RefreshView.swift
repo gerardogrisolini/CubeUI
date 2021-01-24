@@ -9,24 +9,27 @@ import SwiftUI
 
 public struct RefreshView<Content: View>: View {
         
-    @Binding var offset: CGFloat
-    @Binding var isRefresh: Bool
+    @Binding var scrollOffset: CGFloat
+    @Binding var isRefreshing: Bool
     @State private var navBarHeight: CGFloat = 0
     
-    private let onRefresh: () -> ()
+    let refreshOffset: CGFloat
+    private let onRefreshing: () -> ()
     private let content: Content
     private var icon: AnyView?
     
     public init(
-        offset: Binding<CGFloat>,
-        isRefresh: Binding<Bool>,
-        onRefresh: @escaping () -> (),
+        scrollOffset: Binding<CGFloat>,
+        refreshOffset: CGFloat = 100,
+        isRefreshing: Binding<Bool>,
+        onRefreshing: @escaping () -> (),
         icon: AnyView? = nil,
         @ViewBuilder content: () -> Content
     ) {
-        _offset = offset
-        _isRefresh = isRefresh
-        self.onRefresh = onRefresh
+        _scrollOffset = scrollOffset
+        _isRefreshing = isRefreshing
+        self.refreshOffset = refreshOffset
+        self.onRefreshing = onRefreshing
         self.content = content()
         self.icon = icon
     }
@@ -34,7 +37,7 @@ public struct RefreshView<Content: View>: View {
     public var body: some View {
         ZStack(alignment: .top) {
 
-            if isRefresh {
+            if isRefreshing {
                 if let icon = icon {
                     icon
                 } else {
@@ -54,10 +57,10 @@ public struct RefreshView<Content: View>: View {
                     self.content
                 }
                 .onPreferenceChange(ViewHeightKey.self) {
-                    offset = $0
-                    if !isRefresh && offset > 100 {
-                        isRefresh = true
-                        onRefresh()
+                    scrollOffset = $0
+                    if !isRefreshing && scrollOffset > refreshOffset {
+                        isRefreshing = true
+                        onRefreshing()
                     }
                 }
                 .background(NavBarAccessor { navBar in
@@ -71,18 +74,18 @@ public struct RefreshView<Content: View>: View {
 
 #if DEBUG
 struct RefreshView_Previews: PreviewProvider {
-    @State static var offset: CGFloat = 0
-    @State static var isRefresh: Bool = true
+    @State static var scrollOffset: CGFloat = 0
+    @State static var isRefreshing: Bool = true
     
     static var previews: some View {
         
         RefreshView(
-            offset: $offset,
-            isRefresh: $isRefresh,
-            onRefresh: { print("onRefresh") },
+            scrollOffset: $scrollOffset,
+            isRefreshing: $isRefreshing,
+            onRefreshing: { print("onRefreshing") },
             icon: AnyView(Image(systemName: "message"))
         ) {
-            Text("\(offset) - \(isRefresh.description)")
+            Text("\(scrollOffset) - \(isRefreshing.description)")
                 .font(.title)
                 .frame(maxWidth: .infinity)
         }
