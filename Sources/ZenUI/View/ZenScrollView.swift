@@ -1,5 +1,5 @@
 //
-//  ScrollObservedView.swift
+//  ZenScrollView.swift
 //  
 //
 //  Created by Gerardo Grisolini on 24/01/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct ScrollObservedView<Content: View>: View {
+public struct ZenScrollView<Content: View>: View {
     
     @State private var navBarHeight: CGFloat = 0
     @Binding var offset: CGFloat
@@ -38,16 +38,16 @@ public struct ScrollObservedView<Content: View>: View {
     }
 }
 
-struct ScrollObservedView_Previews: PreviewProvider {
+struct ZenScrollView_Previews: PreviewProvider {
     @State static var offset: CGFloat = 0
     @State static var isRefreshing: Bool = false
 
     static var previews: some View {
-        ScrollObservedView(offset: $offset) {
-//            RefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
-//
-//                Text("ScrollObservedView")
-//            }
+        ZenScrollView(offset: $offset) {
+            ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
+
+                Text("ScrollObservedView")
+            }
         }
     }
 }

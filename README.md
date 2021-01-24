@@ -10,7 +10,7 @@ dependencies: [
 ]
 ```
 
-#### Example CubeView
+#### Example ZenCubeView
 
 ```
 import SwiftUI
@@ -21,7 +21,7 @@ struct ContentView: View {
     
     var body: some View {
     
-        CubeView(index: $index, mode: .drag) {
+        ZenCubeView(index: $index, mode: .drag) {
         
             SideView(number: 1, color: .blue)
             SideView(number: 2, color: .orange)
@@ -51,29 +51,29 @@ struct SideView: View {
 }
 ```
 
-#### Example RefreshView
+#### Example ZenScrollView
 
 ```
 import SwiftUI
 import ZenUI
 
 struct ContentView: View {
-    @State private var index: Int = 0
-    @State private var scrollOffset: CGFloat = 0
+    @State private var offset: CGFloat = 0
     @State private var isRefreshing: Bool = false
     @State private var data: [Int] = []
     
     var body: some View {
         NavigationView {
-        
-            RefreshView(scrollOffset: $scrollOffset, isRefreshing: $isRefreshing, onRefreshing: refresh) {
-        
-                LazyVStack(alignment: .leading, spacing: 1) {
-                    ForEach(data, id: \.self) { value in
-                        Text(value.description)
-                            .frame(maxWidth: .infinity)
-                            .font(.title3)
-                            .padding()
+
+            ZenScrollView(offset: $offset) {
+                ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: refresh) {
+                    LazyVStack(alignment: .leading, spacing: 1) {
+                        ForEach(data, id: \.self) { value in
+                            Text(value.description)
+                                .frame(maxWidth: .infinity)
+                                .font(.title3)
+                                .padding()
+                        }
                     }
                 }
             }
@@ -87,7 +87,7 @@ struct ContentView: View {
     private func refresh() {
         isRefresh = true
         data.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             data.append(contentsOf: 0...100)
             isRefresh = false
         }

@@ -25,17 +25,17 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
     public var views: [LibraryItem] {
         
         LibraryItem(
-            ScrollObservedView(offset: $offset) {
+            ZenScrollView(offset: $offset) {
                 Text("Content")
             },
             visible: true,
-            title: "Scroll Observed View",
+            title: "Scroll View",
             category: .control,
             matchingSignature: "sow"
         )
 
         LibraryItem(
-            RefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
+            ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
                 Text("Content")
             },
             visible: true,
@@ -45,7 +45,7 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
         )
         
         LibraryItem(
-            CubeView(index: $index, mode: .swipe) {
+            ZenCubeView(index: $index, mode: .swipe) {
                 Text("1")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.green)

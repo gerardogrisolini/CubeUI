@@ -1,5 +1,5 @@
 //
-//  RefreshView.swift
+//  ZenRefreshView.swift
 //  ZenUI
 //
 //  Created by Gerardo Grisolini on 14/01/21.
@@ -7,23 +7,13 @@
 
 import SwiftUI
 
-
-//extension View {
-//    func refreshable(scrollOffset: Binding<CGFloat>, isRefreshing: Binding<Bool>, onRefreshing: @escaping () -> (), refreshOffset: CGFloat = 100, icon: AnyView? = nil) -> some View {
-//
-//        return RefreshView(scrollOffset: scrollOffset, isRefreshing: isRefreshing, onRefreshing: onRefreshing, refreshOffset: refreshOffset, icon: icon) {
-//            self
-//        }
-//    }
-//}
-
-public struct RefreshView<Content: View>: View {
+public struct ZenRefreshView<Content: View>: View {
         
     @Binding var scrollOffset: CGFloat
     @Binding var isRefreshing: Bool
     @State private var navBarHeight: CGFloat = 0
     
-    let refreshOffset: CGFloat
+    private let refreshOffset: CGFloat
     private let onRefreshing: () -> ()
     private let content: Content
     private var icon: AnyView?
@@ -72,13 +62,13 @@ public struct RefreshView<Content: View>: View {
 
 
 #if DEBUG
-struct RefreshView_Previews: PreviewProvider {
+struct ZenRefreshView_Previews: PreviewProvider {
     @State static var scrollOffset: CGFloat = 0
     @State static var isRefreshing: Bool = true
     
     static var previews: some View {
         
-        RefreshView(
+        ZenRefreshView(
             scrollOffset: $scrollOffset,
             isRefreshing: $isRefreshing,
             onRefreshing: { print("onRefreshing") },

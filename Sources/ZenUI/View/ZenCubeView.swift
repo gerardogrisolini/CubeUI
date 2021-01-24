@@ -1,5 +1,5 @@
 //
-//  CubeView.swift
+//  ZenCubeView.swift
 //  ZenUI
 //
 //  Created by Gerardo Grisolini on 06/01/21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct CubeView<Content: View>: View {
+public struct ZenCubeView<Content: View>: View {
     @StateObject private var viewModel = CubeViewModel()
     @Binding var index: Int
     
@@ -247,7 +247,7 @@ struct CubeView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        CubeView(index: .constant(0), mode: .swipe) {
+        ZenCubeView(index: .constant(0), mode: .swipe) {
             SideView(number: 1, color: .blue)
             SideView(number: 2, color: .orange)
             SideView(number: 3, color: .green)
