@@ -7,6 +7,16 @@
 
 import SwiftUI
 
+
+//extension View {
+//    func refreshable(scrollOffset: Binding<CGFloat>, isRefreshing: Binding<Bool>, onRefreshing: @escaping () -> (), refreshOffset: CGFloat = 100, icon: AnyView? = nil) -> some View {
+//
+//        return RefreshView(scrollOffset: scrollOffset, isRefreshing: isRefreshing, onRefreshing: onRefreshing, refreshOffset: refreshOffset, icon: icon) {
+//            self
+//        }
+//    }
+//}
+
 public struct RefreshView<Content: View>: View {
         
     @Binding var scrollOffset: CGFloat
@@ -20,9 +30,9 @@ public struct RefreshView<Content: View>: View {
     
     public init(
         scrollOffset: Binding<CGFloat>,
-        refreshOffset: CGFloat = 100,
         isRefreshing: Binding<Bool>,
         onRefreshing: @escaping () -> (),
+        refreshOffset: CGFloat = 100,
         icon: AnyView? = nil,
         @ViewBuilder content: () -> Content
     ) {
@@ -48,24 +58,13 @@ public struct RefreshView<Content: View>: View {
                         .zIndex(1.0)
                 }
             }
-            ScrollView {
-                ZStack {
-                    GeometryReader { inReader in
-                        Color.clear
-                            .preference(key: ViewHeightKey.self, value: inReader.frame(in: .global).minY - navBarHeight - 47)
-                    }
-                    self.content
-                }
-                .onPreferenceChange(ViewHeightKey.self) {
-                    scrollOffset = $0
-                    if !isRefreshing && scrollOffset > refreshOffset {
-                        isRefreshing = true
-                        onRefreshing()
-                    }
-                }
-                .background(NavBarAccessor { navBar in
-                    navBarHeight = navBar.bounds.height
-                })
+            
+            self.content
+        }
+        .onChange(of: scrollOffset) { value in
+            if !isRefreshing && scrollOffset > refreshOffset {
+                isRefreshing = true
+                onRefreshing()
             }
         }
     }

@@ -14,12 +14,26 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
     @State private var index: Int = 0
 
     @LibraryContentBuilder public func modifiers(base: Text) -> [LibraryItem] {
+        
         LibraryItem(base.modifier(CubeRotationModifier(pct: 0, translation: .exit, rotation: .next) { print("completed") }), title: "Cube Rotation", category: .effect)
+        
         LibraryItem(base.transition(.cubeRotationLeft), title: "Cube Rotation Left", category: .effect)
+        
         LibraryItem(base.transition(.cubeRotationRight), title: "Cube Rotation Right", category: .effect)
     }
 
     public var views: [LibraryItem] {
+        
+        LibraryItem(
+            ScrollObservedView(offset: $offset) {
+                Text("Content")
+            },
+            visible: true,
+            title: "Scroll Observed View",
+            category: .control,
+            matchingSignature: "sow"
+        )
+
         LibraryItem(
             RefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
                 Text("Content")
@@ -29,6 +43,7 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
             category: .control,
             matchingSignature: "rw"
         )
+        
         LibraryItem(
             CubeView(index: $index, mode: .swipe) {
                 Text("1")
