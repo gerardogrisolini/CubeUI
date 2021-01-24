@@ -10,6 +10,25 @@ dependencies: [
 ]
 ```
 
+#### Example ZenNavigationView
+
+```
+import SwiftUI
+import ZenUI
+
+struct ContentView: View {    
+    var body: some View {
+        
+        ZenNavigationView(transitionType: .default) {
+            PushView(destination: Text("LoginScreen"), destinationId: "login") {
+                Text("LoginScreen")
+            }
+            .navigationToolbar(title: "Home", backButton: false, closeButton: false)
+        }
+    }
+}
+```
+
 #### Example ZenCubeView
 
 ```
