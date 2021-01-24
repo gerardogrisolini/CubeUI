@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct ZenNavigationView<Content: View>: View {
+public struct ZenNavigationView<Content: View>: View {
     
     let router = Router()
     let transitionType: NavigationTransition
     let content: Content
     
-    init(transitionType: NavigationTransition = .default, @ViewBuilder content: () -> Content) {
+    public init(transitionType: NavigationTransition = .default, @ViewBuilder content: () -> Content) {
         self.transitionType = transitionType
         self.content = content()
     }
     
-    var body: some View {
+    public var body: some View {
         NavigationStackView(transitionType: transitionType, navigationStack: router.navStack) {
             self.content
         }
