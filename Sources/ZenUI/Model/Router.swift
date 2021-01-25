@@ -22,17 +22,25 @@ extension EnvironmentValues {
 public class Router {
     
     let navStack = NavigationStack(easing: Animation.easeOut(duration: 0.2))
-    public var checkpoint: String? = nil
+    private(set) public var checkpoint: String? = nil
 
     public init() { }
     
+    public func setCheckpoint(withId: String) {
+        checkpoint = withId
+    }
+
+    public func removeCheckpoint() {
+        checkpoint = nil
+    }
+
     public func popToRoot() {
-        self.navStack.pop(to: .root)
+        navStack.pop(to: .root)
     }
 
     public func popToCheckpoint() {
         if let cp = checkpoint {
-            self.navStack.pop(to: .view(withId: cp))
+            navStack.pop(to: .view(withId: cp))
             checkpoint = nil
         } else {
             popToRoot()
@@ -40,18 +48,18 @@ public class Router {
     }
 
     public func popToPrevious() {
-        self.navStack.pop(to: .previous)
+        navStack.pop(to: .previous)
     }
     
     public func pop(withId: String) {
-        self.navStack.pop(to: .view(withId: withId))
+        navStack.pop(to: .view(withId: withId))
     }
 
     public func push<T>(content: T, withId: String? = nil) where T : View {
         if let withId = withId {
-            self.navStack.push(content, withId: withId)
+            navStack.push(content, withId: withId)
         } else {
-            self.navStack.push(content)
+            navStack.push(content)
         }
     }
 }
