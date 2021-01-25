@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if !os(macOS)
 struct NavBarAccessor: UIViewControllerRepresentable {
     var callback: (UINavigationBar) -> Void
     private let proxyController = ViewController()
@@ -32,4 +33,4 @@ struct NavBarAccessor: UIViewControllerRepresentable {
             }
         }
     }
-}
+}#endif

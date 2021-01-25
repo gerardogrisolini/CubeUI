@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 public struct RouterKey: EnvironmentKey {
     public static let defaultValue: Router = Router()

@@ -20,7 +20,7 @@ public struct ZenScrollView<Content: View>: View {
     }
     
     public var body: some View {
-        ScrollView(showsIndicators: false) {
+        let view = ScrollView(showsIndicators: false) {
             ZStack {
                 GeometryReader { inReader in
                     Color.clear
@@ -31,10 +31,16 @@ public struct ZenScrollView<Content: View>: View {
             .onPreferenceChange(ViewHeightKey.self) {
                 offset = $0
             }
+        }
+        
+        #if os(macOS)
+        return view
+        #else
+        return view
             .background(NavBarAccessor { navBar in
                 navBarHeight = navBar.bounds.height
             })
-        }
+        #endif
     }
 }
 

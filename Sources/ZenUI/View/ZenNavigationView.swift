@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 public struct ZenNavigationView<Content: View>: View {
     

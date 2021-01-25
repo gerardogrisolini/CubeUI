@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 public struct NavigationToolbarModifier: AnimatableModifier {
     @Environment(\.router) var router
     
     private let title: String
-    private let mode: NavigationBarItem.TitleDisplayMode
+    private let mode: TitleDisplayMode
     private let backButton: Bool
     private let closeButton: Bool
     private var offset: CGFloat = 0
@@ -23,7 +24,7 @@ public struct NavigationToolbarModifier: AnimatableModifier {
 
     public init(
         title: String,
-        mode: NavigationBarItem.TitleDisplayMode,
+        mode: TitleDisplayMode,
         backButton: Bool,
         closeButton: Bool,
         offset: CGFloat = 0) {
@@ -81,9 +82,17 @@ public struct NavigationToolbarModifier: AnimatableModifier {
 }
 
 extension View {
-    public func navigationToolbar(title: String = "", mode: NavigationBarItem.TitleDisplayMode = .automatic, backButton: Bool = true, closeButton: Bool = true, offset: CGFloat = 0) -> some View {
+    public func navigationToolbar(title: String = "", mode: TitleDisplayMode = .automatic, backButton: Bool = true, closeButton: Bool = true, offset: CGFloat = 0) -> some View {
 
         return self
             .modifier(NavigationToolbarModifier(title: title, mode: mode, backButton: backButton, closeButton: closeButton, offset: offset))
     }
+}
+
+public enum TitleDisplayMode {
+    case automatic
+    case inline
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    case large
 }
