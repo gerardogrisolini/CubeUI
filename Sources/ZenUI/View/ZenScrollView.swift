@@ -44,6 +44,7 @@ public struct ZenScrollView<Content: View>: View {
     }
 }
 
+#if DEBUG
 struct ZenScrollView_Previews: PreviewProvider {
     @State static var offset: CGFloat = 0
     @State static var isRefreshing: Bool = false
@@ -57,3 +58,4 @@ struct ZenScrollView_Previews: PreviewProvider {
         }
     }
 }
+#endif

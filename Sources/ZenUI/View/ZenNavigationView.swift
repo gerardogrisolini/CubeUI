@@ -28,6 +28,7 @@ public struct ZenNavigationView<Content: View>: View {
     }
 }
 
+#if DEBUG
 struct ZenNavigationView_Previews: PreviewProvider {
     @State static var show = true
 
@@ -160,3 +161,4 @@ struct ScrollScreen: View {
         }
     }
 }
+#endif

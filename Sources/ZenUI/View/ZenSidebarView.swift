@@ -52,6 +52,7 @@ struct ZenSidebarView<SidebarContent: View, Content: View>: View {
     }
 }
 
+#if DEBUG
 struct SideBarStack_Previews: PreviewProvider {
     @State static var show = false
     
@@ -65,3 +66,4 @@ struct SideBarStack_Previews: PreviewProvider {
 
     }
 }
+#endif
