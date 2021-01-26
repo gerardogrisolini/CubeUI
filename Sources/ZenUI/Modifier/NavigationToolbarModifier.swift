@@ -13,8 +13,8 @@ public struct NavigationToolbarModifier: AnimatableModifier {
     
     private let title: String
     private let mode: TitleDisplayMode
-    private let backButton: Bool
-    private let closeButton: Bool
+    private let leadingButtons: AnyView?
+    private let trailingButtons: AnyView?
     private var offset: CGFloat = 0
 
     public var animatableData: CGFloat {
@@ -25,14 +25,14 @@ public struct NavigationToolbarModifier: AnimatableModifier {
     public init(
         title: String,
         mode: TitleDisplayMode,
-        backButton: Bool,
-        closeButton: Bool,
+        leadingButtons: AnyView? = nil,
+        trailingButtons: AnyView? = nil,
         offset: CGFloat = 0) {
         
         self.title = title
         self.mode = mode
-        self.backButton = backButton
-        self.closeButton = closeButton
+        self.leadingButtons = leadingButtons
+        self.trailingButtons = trailingButtons
         self.offset = offset
     }
     
@@ -40,24 +40,20 @@ public struct NavigationToolbarModifier: AnimatableModifier {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    if backButton {
-                        Button(action: router.popToPrevious) {
-                            Image(systemName: "arrow.left")
-                        }
+                    if let leadingButtons = leadingButtons {
+                        leadingButtons
                     }
                     
                     Text(title)
                         .scaleEffect(mode == .inline || mode == .automatic && offset < 0 ? 1.0 : 0.0)
                         .frame(maxWidth: .infinity)
 
-                    if closeButton {
-                        Button(action: router.popToCheckpoint) {
-                            Image(systemName: "xmark")
-                        }
+                    if let trailingButtons = trailingButtons {
+                        trailingButtons
                     }
                 }
                 .padding(EdgeInsets(top: 56, leading: 20, bottom: 16, trailing: 20))
-                .frame(height: offset > -500 ? 90 : 0)
+                .frame(height: offset > -500 ? 88 : 0)
                 .offset(y: offset > -500 ? 0.0 : -90.0)
 
                 Text(title)
@@ -65,7 +61,7 @@ public struct NavigationToolbarModifier: AnimatableModifier {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 16)
                     .scaleEffect(mode == .large || mode == .automatic && offset >= 0 ? 1.0 : 0.0)
-                    .frame(height: mode == .inline || mode == .automatic && offset < 0 ? 0 : 50)
+                    .frame(height: mode == .inline || mode == .automatic && offset < 0 ? 0 : 60)
             
                 Divider()
             }
@@ -82,10 +78,23 @@ public struct NavigationToolbarModifier: AnimatableModifier {
 }
 
 extension View {
-    public func navigationToolbar(title: String = "", mode: TitleDisplayMode = .automatic, backButton: Bool = true, closeButton: Bool = true, offset: CGFloat = 0) -> some View {
+    public func navigationToolbar(
+        title: String = "",
+        mode: TitleDisplayMode = .automatic,
+        leadingButtons: AnyView? = AnyView(BackButton()),
+        trailingButtons: AnyView? = AnyView(CloseButton()),
+        offset: CGFloat = 0) -> some View {
 
         return self
-            .modifier(NavigationToolbarModifier(title: title, mode: mode, backButton: backButton, closeButton: closeButton, offset: offset))
+            .modifier(
+                NavigationToolbarModifier(
+                    title: title,
+                    mode: mode,
+                    leadingButtons: leadingButtons,
+                    trailingButtons: trailingButtons,
+                    offset: offset
+                )
+            )
     }
 }
 
@@ -95,4 +104,24 @@ public enum TitleDisplayMode {
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     case large
+}
+
+public struct BackButton: View {
+    @Environment(\.router) var router
+    
+    public init() { }
+    
+    public var body: some View {
+        Button(action: router.popToPrevious) { Image(systemName: "arrow.left") }
+    }
+}
+
+public struct CloseButton: View {
+    @Environment(\.router) var router
+
+    public init() { }
+
+    public var body: some View {
+        Button(action: router.popToCheckpoint) { Image(systemName: "xmark") }
+    }
 }

@@ -6,7 +6,7 @@
 
 ```
 dependencies: [
-    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.2.4")
+    .package(url: "https://github.com/gerardogrisolini/ZenUI.git", from: "1.2.5")
 ]
 ```
 
@@ -18,13 +18,50 @@ import ZenUI
 
 struct ContentView: View {    
     var body: some View {
-        
         ZenNavigationView(transitionType: .default) {
-            PushView(destination: Text("LoginScreen"), destinationId: "login") {
-                Text("LoginScreen")
-            }
-            .navigationToolbar(title: "Home", backButton: false, closeButton: false)
+            HomePage()
         }
+    }
+}
+
+struct HomePage: View {
+    var body: some View {
+        VStack {
+            PushView(destination: DetailPage()) {
+                Text("DetailPage")
+            }
+        }
+        .navigationToolbar(title: "Home", backButton: false, closeButton: false)
+    }
+}
+
+struct DetailPage: View {
+    @Environment(\.router) var router
+
+    var body: some View {
+        VStack {
+            Button("InfoPage") {
+                router.setCheckpoint(withId: "detail")
+                router.push(content: InfoPage())
+            }
+        }
+        .navigationToolbar(title: "Detail", closeButton: false)
+    }
+}
+
+struct InfoPage: View {
+    @Environment(\.router) var router
+
+    var body: some View {
+        VStack {
+            PopView {
+                Text("Back")
+            }
+            Button("Checkpoint") {
+                router.popToCheckpoint()
+            }
+        }
+        .navigationToolbar(title: "Info")
     }
 }
 ```
@@ -76,28 +113,29 @@ struct SideView: View {
 import SwiftUI
 import ZenUI
 
-struct ContentView: View {
-    @State private var offset: CGFloat = 0
+struct ScrollScreen: View {
+    @Environment(\.router) var router
+
+    @State private var index: Int = 0
+    @State private var scrollOffset: CGFloat = 0
     @State private var isRefreshing: Bool = false
     @State private var data: [Int] = []
-    
-    var body: some View {
-        NavigationView {
 
-            ZenScrollView(offset: $offset) {
-                ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: refresh) {
-                    LazyVStack(alignment: .leading, spacing: 1) {
-                        ForEach(data, id: \.self) { value in
-                            Text(value.description)
-                                .frame(maxWidth: .infinity)
-                                .font(.title3)
-                                .padding()
-                        }
+    var body: some View {
+        ZenScrollView(offset: $scrollOffset) {
+            ZenRefreshView(scrollOffset: $scrollOffset, isRefreshing: $isRefreshing, onRefreshing: refresh, refreshOffset: 200) {
+        
+                LazyVStack(alignment: .leading, spacing: 1) {
+                    ForEach(data, id: \.self) { value in
+                        Text(value.description)
+                            .frame(maxWidth: .infinity)
+                            .font(.title3)
+                            .padding()
                     }
                 }
             }
-            .navigationTitle("\(offset)")
         }
+        .navigationToolbar(title: "Scroll \(Int(scrollOffset))", offset: scrollOffset)
         .onAppear {
             refresh()
         }
@@ -106,9 +144,28 @@ struct ContentView: View {
     private func refresh() {
         isRefreshing = true
         data.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            data.append(contentsOf: 0...100)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            data.append(contentsOf: 0...30)
             isRefreshing = false
+        }
+    }
+}
+```
+
+#### Example ZenSidebarView
+
+```
+import SwiftUI
+import ZenUI
+
+struct SidebarPage: View {
+    @State private var show = false
+
+    var body: some View {
+        ZenSidebarView(width: 200, show: $show) {
+            // Sidebar content here
+        } content: {
+            // Main content here
         }
     }
 }

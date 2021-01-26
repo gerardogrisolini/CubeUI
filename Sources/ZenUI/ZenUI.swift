@@ -11,9 +11,12 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
 
     @State private var offset: CGFloat = 0
     @State private var isRefreshing: Bool = true
+    @State private var show: Bool = true
     @State private var index: Int = 0
 
     @LibraryContentBuilder public func modifiers(base: Text) -> [LibraryItem] {
+        
+        LibraryItem(base.modifier(NavigationToolbarModifier(title: "", mode: .large)), title: "Navigation Toolbar", category: .control)
         
         LibraryItem(base.modifier(CubeRotationModifier(pct: 0, translation: .exit, rotation: .next) { print("completed") }), title: "Cube Rotation", category: .effect)
         
@@ -25,23 +28,45 @@ struct ZenUI_LibraryContent: LibraryContentProvider {
     public var views: [LibraryItem] {
         
         LibraryItem(
+            ZenNavigationView(transitionType: .default) {
+                // Main content here
+            },
+            visible: true,
+            title: "Navigation Stack",
+            category: .control,
+            matchingSignature: "znv"
+        )
+
+        LibraryItem(
+            ZenSidebarView(width: 300, show: $show) {
+                // Sidebar content here
+            } content: {
+                // Main content here
+            },
+            visible: true,
+            title: "Sidebar View",
+            category: .control,
+            matchingSignature: "zsv"
+        )
+
+        LibraryItem(
             ZenScrollView(offset: $offset) {
-                Text("Content")
+                // Main content here
             },
             visible: true,
             title: "Scroll View",
             category: .control,
-            matchingSignature: "sow"
+            matchingSignature: "zsw"
         )
 
         LibraryItem(
-            ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { print("onRefreshing") }) {
-                Text("Content")
+            ZenRefreshView(scrollOffset: $offset, isRefreshing: $isRefreshing, onRefreshing: { }) {
+                // Main content here
             },
             visible: true,
             title: "Refresh View",
             category: .control,
-            matchingSignature: "rw"
+            matchingSignature: "zrw"
         )
         
         LibraryItem(
