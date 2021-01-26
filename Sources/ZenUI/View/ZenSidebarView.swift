@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ZenSidebarView<SidebarContent: View, Content: View>: View {
+public struct ZenSidebarView<SidebarContent: View, Content: View>: View {
     
     let sidebarContent: SidebarContent
     let mainContent: Content
@@ -15,14 +15,14 @@ struct ZenSidebarView<SidebarContent: View, Content: View>: View {
     
     @Binding var show: Bool
     
-    init(width: CGFloat, show: Binding<Bool>, @ViewBuilder sidebar: () -> SidebarContent, @ViewBuilder content: () -> Content) {
+    public init(width: CGFloat, show: Binding<Bool>, @ViewBuilder sidebar: () -> SidebarContent, @ViewBuilder content: () -> Content) {
         self.width = width
         self._show = show
         sidebarContent = sidebar()
         mainContent = content()
     }
     
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .leading) {
             sidebarContent
                 .frame(width: width, alignment: .center)
