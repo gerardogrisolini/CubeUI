@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 public struct NavigationToolbarModifier: AnimatableModifier {
     @Environment(\.router) var router

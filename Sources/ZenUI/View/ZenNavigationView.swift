@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 public struct ZenNavigationView<Content: View>: View {
     
@@ -41,19 +40,19 @@ struct ZenNavigationView_Previews: PreviewProvider {
                     Image(systemName: "line.horizontal.3")
                 })
                 Divider()
-                Button("Detail") {
+                Button("Home") {
                     router.popToRoot()
-                    router.push(content: DetailPage())
+                    router.push(content: HomePage(show: $show))
                     show.toggle()
                 }
-                Button("Info") {
+                Button("Settings") {
                     router.popToRoot()
-                    router.push(content: InfoPage())
+                    router.push(content: Text("Settings").navigationToolbar(title: "Settings", trailingButtons: nil))
                     show.toggle()
                 }
-                Button("Scroll") {
+                Button("Account") {
                     router.popToRoot()
-                    router.push(content: ScrollScreen())
+                    router.push(content: Text("Account").navigationToolbar(title: "Account", trailingButtons: nil))
                     show.toggle()
                 }
             }
