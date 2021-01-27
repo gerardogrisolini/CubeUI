@@ -130,7 +130,8 @@ public struct ZenCubeView<Content: View>: View {
         viewModel.pct = 0
         let pct = viewModel.direction == .next ? 1.0 : -1.0
         for val in 0..<count {
-            let delay = TimeInterval(val/2)
+            let delay = TimeInterval(Double(val)/2.0)
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 if viewModel.index + incrementBy == -1 {
                     viewModel.index = views.count - 1
