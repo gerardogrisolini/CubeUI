@@ -24,7 +24,7 @@ public struct CubeRotationModifier: AnimatableModifier {
         }
     }
     
-    init(pct: Double, translation: TranslationDirection, rotation: RotationDirection, completion: @escaping () -> Void) {
+    public init(pct: Double, translation: TranslationDirection, rotation: RotationDirection, completion: @escaping () -> Void) {
         self.pct = pct
         self.translation = translation
         self.rotation = rotation
@@ -78,7 +78,7 @@ public struct CubeRotationModifier: AnimatableModifier {
 }
 
 extension AnyTransition {
-    static var cubeRotationRight: AnyTransition {
+    public static var cubeRotationRight: AnyTransition {
         .asymmetric(
             insertion:
                 AnyTransition.modifier(
@@ -92,7 +92,7 @@ extension AnyTransition {
                 )
         )
     }
-    static var cubeRotationLeft: AnyTransition {
+    public static var cubeRotationLeft: AnyTransition {
         .asymmetric(
             insertion:
                 AnyTransition.modifier(
