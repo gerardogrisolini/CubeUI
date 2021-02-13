@@ -27,26 +27,24 @@ public struct ZenSidebarView<SidebarContent: View, Content: View>: View {
             sidebarContent
                 .frame(width: width, alignment: .center)
                 .offset(x: show ? 0 : -1 * width, y: 0)
+                .gesture(DragGesture().onEnded { value in
+                    if value.translation.width < -50 {
+                        show = false
+                    }
+                    if value.translation.width > 50 {
+                        show = true
+                    }
+                })
                 .animation(Animation.easeInOut.speed(2))
             mainContent
                 .overlay(
-                    Group {
-                        if show {
-                            Color.white
-                                .opacity(show ? 0.01 : 0)
-                                .onTapGesture {
-                                    self.show = false
-                                }
-                        } else {
-                            Color.clear
-                            .opacity(show ? 0 : 0)
-                            .onTapGesture {
-                                self.show = false
-                            }
+                    Color.black
+                        .opacity(show ? 0.25 : 0)
+                        .onTapGesture {
+                            show = false
                         }
-                    }
+                        .edgesIgnoringSafeArea(.all)
                 )
-//                .offset(x: showSidebar ? sidebarWidth : 0, y: 0)
                 .animation(Animation.easeInOut.speed(2))
         }
     }
@@ -67,3 +65,9 @@ struct SideBarStack_Previews: PreviewProvider {
     }
 }
 #endif
+
+struct ZenSidebarView_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}
